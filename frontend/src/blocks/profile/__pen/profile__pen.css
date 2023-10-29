@@ -1,0 +1,6 @@
+@media screen and (max-width: 500px) {
+    .profile__pen {
+        max-height: 7.5px;
+        max-width: 7.5px;
+    }
+}

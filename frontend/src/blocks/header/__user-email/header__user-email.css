@@ -1,0 +1,16 @@
+.header__user-email {
+    color: #FFF;
+    text-align: right;
+    font-family: 'Inter', ‘Arial’, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+@media screen and (max-width: 500px) {
+    .header__user-email {
+        font-size: 14px;
+        margin: 6px auto 0;
+    }
+}

@@ -1,0 +1,18 @@
+.profile__avatar {
+  background-image: url(../../../images/profile-pen.svg);
+  background-color: #000;
+  background-position: 50%;
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  margin-right: 30px;
+  transition: opacity 0.4s ease-in-out;
+}
+
+@media screen and (max-width: 1070px) {
+    .profile__avatar {
+        margin: 0 auto;
+    }
+}

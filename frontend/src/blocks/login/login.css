@@ -1,0 +1,10 @@
+.login {
+    margin: 60px auto 0;
+    max-width: 358px;
+}
+
+@media screen and (max-width: 500px) {
+    .login {
+        margin-top: 40px;
+    }
+}

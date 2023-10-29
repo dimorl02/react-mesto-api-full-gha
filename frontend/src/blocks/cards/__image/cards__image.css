@@ -1,0 +1,7 @@
+.cards__image {
+    background-size: cover;
+    height: 282px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}

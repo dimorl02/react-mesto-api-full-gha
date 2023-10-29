@@ -1,0 +1,20 @@
+.popup__text-error {
+    opacity: 0;
+    padding: 0;
+    width: 100%;
+    color: rgb(255, 0, 0);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: translateY(calc(100% + 3px));
+    font-family: 'Inter', ‘Arial’, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+@media screen and (max-width: 500px) {
+    .popup__text-error {
+        width: calc(100% - 44px);
+    }
+}

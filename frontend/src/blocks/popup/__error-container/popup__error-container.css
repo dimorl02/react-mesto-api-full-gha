@@ -1,0 +1,14 @@
+.popup__error-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-self: center;
+    width: calc(100% - 72px);
+    z-index: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .popup__error-container {
+        width: calc(100% - 44px);
+    }
+}

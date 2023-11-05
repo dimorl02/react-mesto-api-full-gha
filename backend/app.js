@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
-});
+}).then(() => console.log('Connected to MongoDB'));
 app.use(bodyParser.json());
 app.use('/signin', validateLogin, login);
 app.use('/signup', validateCreateUser, createUser);
@@ -29,4 +29,6 @@ app.use('*', (req, res, next) => {
   next(new NotFoundError('Данный путь не найден'));
 });
 app.use(errorHandler);
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`App started on port ${PORT}`);
+});

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.mesto.dimorl02.nomoredomainsroсks';
+export const BASE_URL = 'https://api.mesto.dimorl02.nomoredomainsroсks.ru';
 
 function checkResponseValidity(res) {
     if (res.ok) {

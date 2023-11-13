@@ -14,6 +14,7 @@ import Main from './Main.js'
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
+
 import * as auth from '../utils/auth';
 
 function App() {
@@ -40,6 +41,20 @@ function App() {
             })
             .catch((error) => alert(`Произошла ошибка ${error}`));
     }, []);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          auth.checkToken(token)
+            .then((res) => {
+              api.setToken(token);
+              setUserEmail(res.email)
+              setLoggedIn(true);
+              navigate('/', { replace: true })
+            })
+            .catch((err) => console.log(err))
+        }
+      }, [navigate]);
 
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
         React.useState(false);
@@ -146,20 +161,7 @@ function App() {
             })
     }
 
-    function tokenCheck(){
-        const jwt = localStorage.getItem('jwt');
-        if(jwt){
-          auth.getContent(jwt)
-            .then((res) => {
-              setLoggedIn(true);
-              setUserEmail(res.data.email);
-              navigate("/", {replace: true});
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        }
-    }
+
     function handleLogin(data) {
         console.log("login data:", data)
         auth.authorizeUser(data.email, data.password)

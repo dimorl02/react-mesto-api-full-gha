@@ -3,7 +3,7 @@ class Api {
     constructor(options) {
         this._url = options.url;
         this._headers = options.headers;
-        this._authorization = options.headers['authorization'];
+
     }
 
     _checkResponseValidity(res) {
@@ -12,6 +12,10 @@ class Api {
         }
         return Promise.reject(`Ошибка: ${res.status}`);
     };
+
+    setToken(token) {
+        this._headers['authorization'] = `Bearer ${token}`;
+    }
 
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
@@ -100,5 +104,6 @@ class Api {
         }
       }
 }
+
 
 export const api = new Api(settingsApi);

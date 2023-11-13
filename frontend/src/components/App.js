@@ -212,10 +212,6 @@ function App() {
         setUserEmail('');
       }
 
-      useEffect(()=>{
-        tokenCheck();
-      }, [])
-
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">

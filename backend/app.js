@@ -7,6 +7,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const auth  = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
 const { validateLogin, validateCreateUser } = require('./middlewares/validation');
+
 const { NotFoundError } = require('./errors/NotFoundError');
 cors = require('cors');
 

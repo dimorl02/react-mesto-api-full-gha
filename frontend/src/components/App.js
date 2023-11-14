@@ -163,7 +163,6 @@ function App() {
 
 
     function handleLogin(data) {
-        console.log("login data:", data)
         auth.authorizeUser(data.email, data.password)
           .then((res)=>{
             setMessage({
@@ -171,6 +170,7 @@ function App() {
                 text: "Вы успешно авторизовались!",
               });
             localStorage.setItem("jwt", res.token);
+            api.setToken(res.token);
             setLoggedIn(true);
             navigate('/', {replace: true})
             setUserEmail(data.email)

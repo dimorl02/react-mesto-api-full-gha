@@ -37,7 +37,7 @@ export const authorizeUser = (email, password) => {
     })
 };
 
-export const getContent = (token) => {
+export const checkToken = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -45,7 +45,8 @@ export const getContent = (token) => {
           'Authorization': `Bearer ${token}`,
       }
   })
-  .then(res => checkResponseValidity(res))
-  .then(data => data)
+      .then((res) => {
+          return checkResponse(res);
+      })
 }
 

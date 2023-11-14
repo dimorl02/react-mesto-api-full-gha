@@ -33,7 +33,7 @@ function App() {
     const [userEmail, setUserEmail] = useState("");
     const [cards, setCards] = useState([]);
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         Promise.all([api.getUserInfoApi(), api.getInitialCards()])
             .then(([resUser, resCard]) => {
@@ -43,7 +43,7 @@ function App() {
             .catch((error) => alert(`Произошла ошибка ${error}`));
     }, []);
 
-    
+
 
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
         React.useState(false);
@@ -54,25 +54,20 @@ function App() {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
 
-    const checkToken = useCallback(() => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
-            auth.getContent(jwt)
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            auth.checkToken(token)
                 .then((res) => {
-                    api.setToken(jwt);
+                    api.setToken(token);
                     setUserEmail(res.email)
                     setLoggedIn(true);
-                    navigate('/', { replace: true });
+                    navigate('/', { replace: true })
                 })
-                .catch((err) => {
-                    console.log(`Ошибка получения токена: ${err}`);
-                })
+                .catch((err) => console.log(err))
         }
     }, [navigate]);
 
-    useEffect(() => {
-        checkToken();
-    }, [checkToken]);
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);

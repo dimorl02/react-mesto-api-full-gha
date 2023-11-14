@@ -37,7 +37,7 @@ export const authorizeUser = (email, password) => {
     })
 };
 
-export const checkToken = (token) => {
+export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -45,18 +45,7 @@ export const checkToken = (token) => {
           'Authorization': `Bearer ${token}`,
       }
   })
-      .then((res) => {
-          return checkResponse(res);
-      })
+  .then(res => checkResponseValidity(res))
+  .then(data => data)
 }
 
-export const getContent =(token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(res => checkResponseValidity(res))
-    .then(data => data)
-};

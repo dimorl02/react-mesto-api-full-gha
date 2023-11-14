@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import ProtectedRouteElement from './ProtectedRoute';
 import Register from './Register';
@@ -29,32 +29,37 @@ function App() {
     const [message, setMessage] = useState({
         status: false,
         text: "",
-      })
+    })
     const [userEmail, setUserEmail] = useState("");
     const [cards, setCards] = useState([]);
     useEffect(() => {
         Promise.all([api.getUserInfoApi(), api.getInitialCards()])
             .then(([resUser, resCard]) => {
                 setCurrentUser(resUser);
-
                 setCards(resCard);
             })
             .catch((error) => alert(`Произошла ошибка ${error}`));
     }, []);
 
-    React.useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-          auth.checkToken(token)
-            .then((res) => {
-              api.setToken(token);
-              setUserEmail(res.email)
-              setLoggedIn(true);
-              navigate('/', { replace: true })
-            })
-            .catch((err) => console.log(err))
+    const checkToken = useCallback(() => {
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            auth.getContent(jwt)
+                .then((res) => {
+                    api.setToken(jwt);
+                    setUserEmail(res.email)
+                    setLoggedIn(true);
+                    navigate('/', { replace: true });
+                })
+                .catch((err) => {
+                    console.log(`Ошибка получения токена: ${err}`);
+                })
         }
-      }, [navigate]);
+    }, [navigate]);
+
+    useEffect(() => {
+        checkToken();
+    }, [checkToken]);
 
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
         React.useState(false);
@@ -64,7 +69,7 @@ function App() {
     const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
-    
+
 
     const navigate = useNavigate();
     function handleEditAvatarClick() {
@@ -164,60 +169,60 @@ function App() {
 
     function handleLogin(data) {
         auth.authorizeUser(data.email, data.password)
-          .then((res)=>{
-            setMessage({
-                status: true,
-                text: "Вы успешно авторизовались!",
-              });
-            localStorage.setItem("jwt", res.token);
-            api.setToken(res.token);
-            setLoggedIn(true);
-            navigate('/', {replace: true})
-            setUserEmail(data.email)
-            setIsInfoTooltipOpen(true);
-          })
-          .catch(() => {
-            setMessage({
-                status: false,
-                text: "Что-то пошло не так! Попробуйте ещё раз.",
-              });
-              setIsInfoTooltipOpen(true)
-          })
-      }
-    
-      function handleRegister(data){
-        auth.registerUser(data.email, data.password)
-          .then(()=>{
-            
-            setMessage({
-                status: true,
-                text: "Вы успешно зарегистрировались!",
-              });
-            navigate('/sign-in', {replace: true})
-            setIsInfoTooltipOpen(true)
-          })
-          .catch(() => {
-            setMessage({
-              status: false,
-              text: "Что-то пошло не так! Попробуйте ещё раз.",
-            });
-            setIsInfoTooltipOpen(true)
-          })
-      }
+            .then((res) => {
+                setMessage({
+                    status: true,
+                    text: "Вы успешно авторизовались!",
+                });
+                localStorage.setItem("jwt", res.token);
+                api.setToken(res.token);
+                setLoggedIn(true);
+                navigate('/', { replace: true })
+                setUserEmail(data.email)
+                setIsInfoTooltipOpen(true);
+            })
+            .catch(() => {
+                setMessage({
+                    status: false,
+                    text: "Что-то пошло не так! Попробуйте ещё раз.",
+                });
+                setIsInfoTooltipOpen(true)
+            })
+    }
 
-      function logOut() {
+    function handleRegister(data) {
+        auth.registerUser(data.email, data.password)
+            .then(() => {
+
+                setMessage({
+                    status: true,
+                    text: "Вы успешно зарегистрировались!",
+                });
+                navigate('/sign-in', { replace: true })
+                setIsInfoTooltipOpen(true)
+            })
+            .catch(() => {
+                setMessage({
+                    status: false,
+                    text: "Что-то пошло не так! Попробуйте ещё раз.",
+                });
+                setIsInfoTooltipOpen(true)
+            })
+    }
+
+    function logOut() {
         localStorage.removeItem('jwt');
         navigate('/sign-in');
         setLoggedIn(false);
         setUserEmail('');
-      }
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="page">
                 <Header signOut={logOut} userEmail={userEmail} />
                 <Routes>
-                    <Route path="/sign-up" element={<Register title="Регистрация" name="register" handleRegister={handleRegister}/>} />
+                    <Route path="/sign-up" element={<Register title="Регистрация" name="register" handleRegister={handleRegister} />} />
                     <Route path="/sign-in" element={<Login title="Вход" name="login" handleLogin={handleLogin} />} />
                     <Route path="/" element={
                         <ProtectedRouteElement
@@ -232,7 +237,7 @@ function App() {
                             onDeleteClick={handleCardDelete} />
                     } />
                     <Route path="*" element={<Navigate to="/sign-in" replace />} />
-                    
+
                 </Routes>
 
                 <EditProfilePopup
@@ -262,7 +267,7 @@ function App() {
                     onUpdateAvatar={handleUpdateAvatar}
                     onOverlayClick={handlePopupOverlayClick}
                 />
-                <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} message={message}/>
+                <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} message={message} />
             </div>
         </CurrentUserContext.Provider>
     );

@@ -32,6 +32,8 @@ function App() {
     })
     const [userEmail, setUserEmail] = useState("");
     const [cards, setCards] = useState([]);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         Promise.all([api.getUserInfoApi(), api.getInitialCards()])
             .then(([resUser, resCard]) => {
@@ -40,6 +42,17 @@ function App() {
             })
             .catch((error) => alert(`Произошла ошибка ${error}`));
     }, []);
+
+    
+
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
+        React.useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+        React.useState(false);
+    const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+    const [selectedCard, setSelectedCard] = React.useState({});
 
     const checkToken = useCallback(() => {
         const jwt = localStorage.getItem('jwt');
@@ -61,17 +74,6 @@ function App() {
         checkToken();
     }, [checkToken]);
 
-    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-        React.useState(false);
-    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-        React.useState(false);
-    const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
-    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = React.useState({});
-
-
-    const navigate = useNavigate();
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
     }

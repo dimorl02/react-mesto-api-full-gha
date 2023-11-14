@@ -18,13 +18,11 @@ class Api {
 
     getInitialCards() {
         return fetch(`${this._url}/cards`, {
-            headers: {
-                method: 'GET',
-                authorization: this._authorization
-            },
+            method: 'GET',
+            headers: this._headers,
         })
-            .then(res => this._checkResponseValidity(res))
-    }
+            .then(this._handleResponse)
+    };
 
     addCardApi(data) {
         return fetch(`${this._url}/cards`, {

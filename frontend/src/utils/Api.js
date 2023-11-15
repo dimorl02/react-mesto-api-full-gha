@@ -40,7 +40,7 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             headers: {
                 method: 'GET',
-                authorization: this._authorization
+                headers: this._headers,
             },
         })
             .then(res => this._checkResponseValidity(res))

@@ -33,23 +33,23 @@ function App() {
     const [userEmail, setUserEmail] = useState("");
     const [cards, setCards] = useState([]);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        Promise.all([api.getUserInfoApi(), api.getInitialCards()])
-            .then(([resUser, resCard]) => {
-                setCurrentUser(resUser);
-                setCards(resCard);
-            })
-            .catch((error) => alert(`Произошла ошибка ${error}`));
-    }, []);
-
-
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
+
+    useEffect(() => {
+        if (loggedIn) {
+          Promise.all([api.getUserInfoApi(), api.getInitialCards()])
+            .then(([resUser, resCard]) => {
+              setCurrentUser(resUser);
+              setCards(resCard);
+            })
+            .catch((err) => console.log(err))
+        }
+      }, [loggedIn]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');

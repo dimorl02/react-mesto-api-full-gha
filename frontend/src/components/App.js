@@ -25,7 +25,8 @@ function App() {
         "_id": '',
         "cohort": ''
     });
-    const [loggedIn, setLoggedIn] = useState(false);
+    const token = localStorage.getItem('token');
+    const [loggedIn, setLoggedIn] = useState(token ? true : false);
     const [message, setMessage] = useState({
         status: false,
         text: "",
@@ -33,12 +34,12 @@ function App() {
     const [userEmail, setUserEmail] = useState("");
     const [cards, setCards] = useState([]);
     const navigate = useNavigate();
-    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-    const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = React.useState({});
+    const [selectedCard, setSelectedCard] = useState({});
 
     useEffect(() => {
         if (loggedIn) {
@@ -63,7 +64,7 @@ function App() {
                 })
                 .catch((err) => console.log(err))
         }
-    }, [navigate]);
+    });
 
 
     function handleEditAvatarClick() {
@@ -99,16 +100,21 @@ function App() {
     }
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-
+        const isLiked = card.likes.some((i) => i === currentUser._id);
         api.handleLikeApi(card._id, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch(err => {
-                console.log(err.status);
-                alert(`Ошибка при постановке 'Мне нравится':\n ${err.status}\n ${err.text}`);
+          .then((newCard) => {
+            const newCardsList = cards.map(c => {
+              if (c._id === newCard._id) {
+                return newCard;
+              }
+              return c;
             });
+            setCards(newCardsList)
+          })
+          .catch(err => {
+            console.log(err.status);
+            alert(`Ошибка при постановке 'Мне нравится':\n ${err.status}\n ${err.text}`);
+        });
     }
 
     const handleCardDelete = (card) => {

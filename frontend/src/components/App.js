@@ -31,7 +31,7 @@ function App() {
         status: false,
         text: "",
     })
-    const [userEmail, setUserEmail] = useState("");
+    const [userInfo, setUserInfo] = useState("");
     const [cards, setCards] = useState([]);
     const navigate = useNavigate();
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -58,7 +58,12 @@ function App() {
             auth.checkToken(token)
                 .then((res) => {
                     api.setToken(token);
-                    setUserEmail(res.email)
+                    const { _id, email } = res;
+                    const userData = {
+                        _id,
+                        email
+                      };``
+                    setUserInfo(userData)
                     setLoggedIn(true);
                     navigate('/', { replace: true })
                 })
@@ -214,7 +219,7 @@ function App() {
         localStorage.removeItem('jwt');
         navigate('/sign-in');
         setLoggedIn(false);
-        setUserEmail('');
+        setUserInfo('');
     }
 
     return (

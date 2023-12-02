@@ -1,14 +1,12 @@
 [![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
-Ссылка на GHA: https://github.com/dimorl02/express-mesto-gha/actions
+# Ссылки
 
-## Директории
+IP 158.160.126.179
 
-`/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
+Frontend https://mesto.dimorl02.nomoredomainsrocks.ru
+
+Backend https://api.mesto.dimorl02.nomoredomainsrocks.ru
+
 
 ## Запуск проекта
 

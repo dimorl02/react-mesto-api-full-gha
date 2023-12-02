@@ -45,8 +45,10 @@ function App() {
         if (loggedIn) {
           Promise.all([api.getUserInfoApi(), api.getInitialCards()])
             .then(([resUser, resCard]) => {
-              setCurrentUser(resUser);
-              setCards(resCard);
+                setCurrentUser(resUser);
+                setCards(resCard);
+                console.log(resCard);
+                console.log(resUser)
             })
             .catch((err) => console.log(err))
         }
@@ -61,8 +63,7 @@ function App() {
                     setUserEmail(res.email)
                     setLoggedIn(true);
                     navigate('/', { replace: true })
-                    console.log(resCard);
-                    console.log(resUser)
+                    
                 })
                 .catch((err) => console.log(err))
         }

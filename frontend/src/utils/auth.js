@@ -1,4 +1,4 @@
-const BASE_URL = "http://mesto.dimorl02.nomoredomainsrocks.ru/";
+const BASE_URL = "http://api.mesto.dimorl02.nomoredomainsrocks.ru/";
 
 function checkResponse(res) {
   if (res.ok) {

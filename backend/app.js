@@ -28,10 +28,10 @@ mongoose.set('strictQuery', true);
 mongoose
   .connect(URL)
   .then(() => {
-    console.log('БД подключена');
+    console.log('Connected to DB');
   })
   .catch(() => {
-    console.log('Не удалось подключиться к БД');
+    console.log('Failed to connect to DB');
   });
 
 const app = express();

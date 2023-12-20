@@ -1,6 +1,8 @@
 const allowedCors = [
-  'https://mesto.dimorl02.nomoredomainsrocks.ru/',
-  'http://mesto.dimorl02.nomoredomainsrocks.ru/',
+  'https://mesto.dimorl02.nomoredomainsrocks.ru',
+  'http://mesto.dimorl02.nomoredomainsrocks.ru',
+  'http://api.mesto.dimorl02.nomoredomainsrocks.ru',
+  'https://api.mesto.dimorl02.nomoredomainsrocks.ru',
   'https://localhost:3000',
   'http://localhost:3000',
   'https://localhost:3001',
